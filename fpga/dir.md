@@ -1,4 +1,4 @@
-# Directory
+# fpga
 
 [VHDL][1]
 
