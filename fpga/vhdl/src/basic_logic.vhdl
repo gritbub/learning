@@ -23,26 +23,74 @@
 package basic_logic is
 	
 	--------------------------------------------------------------------
+	--	
+	--------------------------------------------------------------------
+	
+	--------------------------------------------------------------------
+	--	types defined in std, included with the compiler; not to be used
+	--------------------------------------------------------------------
+	-- type BIT is ( '0', '1' )
+	
+	--------------------------------------------------------------------
 	--	logic state system (unresolved)
 	--------------------------------------------------------------------
-	type std_ulogic is (	'U',	--	Uninitialized
-							'X',	--	Forcing	Unknown
-							'0',	--	Forcing	0
-							'1',	--	Forcing	1
-							'Z',	--	High Impedance
-							'W',	--	Weak	Unknown
-							'L',	--	Weak	0
-							'H',	--	Weak	1
-							'-',	--	Don't care
-						);
+	type std_ulogic is (	'U', 	--	Uninitialized
+							'X', 	--	Forcing	Unknown
+							'0', 	--	Forcing	0
+							'1', 	--	Forcing	1
+							'Z', 	--	High Impedance
+							'W', 	--	Weak	Unknown
+							'L', 	--	Weak	0
+							'H', 	--	Weak	1
+							'-', 	--	Don't care
+	);
+	
+	--------------------------------------------------------------------
+	--	unconstrained array of std_ulogic for use with the resolution
+	--	function
+	--------------------------------------------------------------------
+	type std_ulogic_vector is array ( natural range <> ) of std_ulogic;
+	
+	--------------------------------------------------------------------
+	--	resolution function
+	--------------------------------------------------------------------
+	function resolved ( s : std_ulogic_vector ) return std_ulogic;
 	
 	--------------------------------------------------------------------
 	--	*** industry standard logic type ***
+	--	I still recommend using std_ulogic so that you'll get compiler
+	--	errors when multiple drivers occur for one signal.
 	--------------------------------------------------------------------
-	subtype	std_logic is resolved std_ulogic;
+	subtype std_logic is resolved std_ulogic;
+	
+	--------------------------------------------------------------------
+	--	unconstrained array of std_logic for use in declaring signal
+	--	arrays
+	--------------------------------------------------------------------
+	type std_logic_vector is array ( natural range <> ) of std_logic;
+	
+	--------------------------------------------------------------------
+	--	common subtypes
+	--------------------------------------------------------------------
+	subtype UX01 is resolved std_ulogic range 'U' to '1'; -- ('U','X','0','1')
+	
+	--------------------------------------------------------------------
+	--	overloaded logical operators
+	--------------------------------------------------------------------
+	function "and"	( l : std_ulogic; r : std_ulogic ) return UX01;
+	
+	--------------------------------------------------------------------
+	--	vectorized overloaded logical operators
+	--------------------------------------------------------------------
+	function "and" 	( l, r : std_logic_vector	) return std_logic_vector;
+	function "and" 	( l, r : std_ulogic_vector	) return std_ulogic_vector;
+	
+	--------------------------------------------------------------------
+	--	conversion functions
+	--------------------------------------------------------------------
+	function To_bit ( s : std_ulogic; xmap : bit := '0' ) return BIT;
 	
 end basic_logic;
-
 
 -- Copy of original documenation:
 -- --------------------------------------------------------------------
