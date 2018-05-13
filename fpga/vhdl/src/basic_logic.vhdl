@@ -88,7 +88,7 @@ package basic_logic is
 	--------------------------------------------------------------------
 	--	conversion functions
 	--------------------------------------------------------------------
-	function To_bit ( s : std_ulogic; xmap : bit := '0' ) return BIT;
+	function To_bit ( s : std_ulogic; xmap : BIT := '0' ) return BIT;
 	
 end basic_logic;
 
