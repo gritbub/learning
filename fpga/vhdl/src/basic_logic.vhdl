@@ -76,12 +76,32 @@ package basic_logic is
 	--	overloaded logical operators
 	--------------------------------------------------------------------
 	function "and"	( l : std_ulogic; r : std_ulogic ) return UX01;
+	function "nand"	( l : std_ulogic; r : std_ulogic ) return UX01;
+	function "or"	( l : std_ulogic; r : std_ulogic ) return UX01;
+	function "nor"	( l : std_ulogic; r : std_ulogic ) return UX01;
+	function "xor"	( l : std_ulogic; r : std_ulogic ) return UX01;
+	function "not"	( l : std_ulogic				 ) return UX01;
 	
 	--------------------------------------------------------------------
 	--	vectorized overloaded logical operators
 	--------------------------------------------------------------------
 	function "and" 	( l, r : std_logic_vector	) return std_logic_vector;
 	function "and" 	( l, r : std_ulogic_vector	) return std_ulogic_vector;
+	
+	function "nand"	( l, r : std_logic_vector	) return std_logic_vector;
+	function "nand"	( l, r : std_ulogic_vector	) return std_ulogic_vector;
+	
+	function "or"	( l, r : std_logic_vector	) return std_logic_vector;
+	function "or"	( l, r : std_ulogic_vector	) return std_ulogic_vector;
+	
+	function "nor"	( l, r : std_logic_vector	) return std_logic_vector;
+	function "nor"	( l, r : std_ulogic_vector	) return std_ulogic_vector;
+	
+	function "xor"	( l, r : std_logic_vector	) return std_logic_vector;
+	function "xor"	( l, r : std_ulogic_vector	) return std_ulogic_vector;
+	
+	function "not"	( l : std_logic_vector	) return std_logic_vector;
+	function "not"	( l : std_ulogic_vector	) return std_ulogic_vector;
 	
 	--------------------------------------------------------------------
 	--	conversion functions
