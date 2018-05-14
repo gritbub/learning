@@ -120,5 +120,16 @@ package body basic_logic is
 		end if;
 	end "and";
 	
+	--------------------------------------------------------------------
+	--	conversion functions
+	--------------------------------------------------------------------
+	function To_bit ( s : std_ulogic; xmap : BIT := '0' ) return BIT is
+	begin
+		case s is
+			when '0' | 'L' => return ('0');
+			when '1' | 'H' => return ('1');
+		end case;
+	end;
+	
 end basic_logic;
 
