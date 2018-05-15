@@ -24,6 +24,7 @@ package body basic_logic is
 	--	local types
 	--------------------------------------------------------------------
 	type stdlogic_table is array ( std_ulogic, std_ulogic ) of std_ulogic;
+	type stdlogic_1d is array ( std_ulogic ) of std_ulogic;
 	
 	--------------------------------------------------------------------
 	--	resolution function
@@ -49,7 +50,7 @@ package body basic_logic is
 		--	conflict with the value of a single driver unresolved
 		--	signal.
 		if ( s'length = 1 ) then
-			return s(s'low);
+			return s( s'low );
 		else
 			for i in s'range loop
 				result := resolution_table( result, s(i) );
@@ -64,18 +65,58 @@ package body basic_logic is
 	
 	--	truth table for "and" function
 	constant and_table : stdlogic_table := (
+		----------------------------------------------------------------
 		--	   U	X	 0	  1	   Z	W	 L	  H	   -
-			( 'U', 'U', '0', 'U', 'U', 'U', '0', 'U', 'U', ), -- U
-			( 'U', 'X', '0', 'X', 'X', 'X', '0', 'X', 'X', ), -- X
-			( '0', '0', '0', '0', '0', '0', '0', '0', '0', ), -- 0
-			( 'U', 'X', '0', '1', 'X', 'X', '0', '1', 'X', ), -- 1
-			( 'U', 'X', '0', 'X', 'X', 'X', '0', 'X', 'X', ), -- Z
-			( 'U', 'X', '0', 'X', 'X', 'X', '0', 'X', 'X', ), -- W
-			( '0', '0', '0', '0', '0', '0', '0', '0', '0', ), -- L
-			( 'U', 'X', '0', '1', 'X', 'X', '0', '1', 'X', ), -- H
-			( 'U', 'X', '0', 'X', 'X', 'X', '0', 'X', 'X', ), -- -
-
+		----------------------------------------------------------------
+			( 'U', 'U', '0', 'U', 'U', 'U', '0', 'U', 'U' ), -- U
+			( 'U', 'X', '0', 'X', 'X', 'X', '0', 'X', 'X' ), -- X
+			( '0', '0', '0', '0', '0', '0', '0', '0', '0' ), -- 0
+			( 'U', 'X', '0', '1', 'X', 'X', '0', '1', 'X' ), -- 1
+			( 'U', 'X', '0', 'X', 'X', 'X', '0', 'X', 'X' ), -- Z
+			( 'U', 'X', '0', 'X', 'X', 'X', '0', 'X', 'X' ), -- W
+			( '0', '0', '0', '0', '0', '0', '0', '0', '0' ), -- L
+			( 'U', 'X', '0', '1', 'X', 'X', '0', '1', 'X' ), -- H
+			( 'U', 'X', '0', 'X', 'X', 'X', '0', 'X', 'X' ), -- -
 	);
+	
+	--	truth table for "or" function
+	constant or_table : stdlogic_table := (
+		----------------------------------------------------------------
+		--	   U	X	 0	  1	   Z	W	 L	  H	   -
+		----------------------------------------------------------------
+			( 'U', 'U', 'U', '1', 'U', 'U', 'U', '1', 'U' ), -- U
+			( 'U', 'X', 'X', '1', 'X', 'X', 'X', '1', 'X' ), -- X
+			( 'U', 'X', '0', '1', 'X', 'X', '0', '1', 'X' ), -- 0
+			( '1', '1', '1', '1', '1', '1', '1', '1', '1' ), -- 1
+			( 'U', 'X', 'X', '1', 'X', 'X', 'X', '1', 'X' ), -- Z
+			( 'U', 'X', 'X', '1', 'X', 'X', 'X', '1', 'X' ), -- W
+			( 'U', 'X', '0', '1', 'X', 'X', '0', '1', 'X' ), -- L
+			( '1', '1', '1', '1', '1', '1', '1', '1', '1' ), -- H
+			( 'U', 'X', 'X', '1', 'X', 'X', 'X', '1', 'X' ), -- -
+	);
+	
+	--	truth table for "xor" function
+	constant xor_table : stdlogic_table := (
+		----------------------------------------------------------------
+		--	   U	X	 0	  1	   Z	W	 L	  H	   -
+		----------------------------------------------------------------
+			( 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U' ), -- U
+			( 'U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ), -- X
+			( 'U', 'X', '0', '1', 'X', 'X', '0', '1', 'X' ), -- 0
+			( 'U', 'X', '1', '0', 'X', 'X', '1', '0', 'X' ), -- 1
+			( 'U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ), -- Z
+			( 'U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ), -- W
+			( 'U', 'X', '0', '1', 'X', 'X', '0', '1', 'X' ), -- L
+			( 'U', 'X', '1', '0', 'X', 'X', '1', '0', 'X' ), -- H
+			( 'U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ), -- -
+	);
+	
+	--	truth table for "not" function
+	constant not_table : stdlogic_1d := 
+		----------------------------------------------------------------
+		--	   U	X	 0	  1	   Z	W	 L	  H	   -
+		----------------------------------------------------------------
+			( 'U', 'X', '1', '0', 'X', 'X', '1', '0', 'X' );
 	
 	--------------------------------------------------------------------
 	--	overloaded logical operators ( with optimizing hints )
@@ -84,6 +125,31 @@ package body basic_logic is
 	begin
 		return ( and_table( l, r ) );
 	end "and";
+	
+	function "nand"	( l : std_ulogic; r : std_ulogic ) return UX01 is
+	begin
+		return ( not_table( and_table( l, r ) ) );
+	end "nand";
+	
+	function "or"	( l : std_ulogic; r : std_ulogic ) return UX01 is
+	begin
+		return ( or_table( l, r ) );
+	end "or";
+	
+	function "nor"	( l : std_ulogic; r : std_ulogic ) return UX01 is
+	begin
+		return ( not_table( or_table( l, r ) ) );
+	end "nor";
+	
+	function "xor"	( l : std_ulogic; r : std_ulogic ) return UX01 is
+	begin
+		return ( xor_table( l, r ) );
+	end "xor";
+	
+	function "not"	( l : std_ulogic ) return UX01 is
+	begin
+		return ( not_table( l ) );
+	end "not";
 	
 	--------------------------------------------------------------------
 	--	and
@@ -99,7 +165,7 @@ package body basic_logic is
 			severity failure;
 		else
 			for i in result'range loop
-				result(i) := and_table ( lv(i), rv(i) );
+				result(i) := and_table( lv(i), rv(i) );
 			end loop;
 		end if;
 	end "and";
@@ -115,10 +181,163 @@ package body basic_logic is
 			severity failure;
 		else
 			for i in result'range loop
-				result(i) := and_table ( lv(i), rv(i) );
+				result(i) := and_table( lv(i), rv(i) );
 			end loop;
 		end if;
 	end "and";
+	
+	--------------------------------------------------------------------
+	--	nand
+	--------------------------------------------------------------------
+	function "nand"	( l, r : std_logic_vector ) return std_logic_vector is
+		alias lv : std_logic_vector ( 1 to l'length ) is l;
+		alias rv : std_logic_vector ( 1 to r'length ) is r;
+		variable result : std_logic_vector ( 1 to l'length );
+	begin
+		if ( l'length /= r'length ) then
+			assert false
+			report "arguments of overloaded 'nand' operator are not of the same length"
+			severity failure;
+		else
+			for i in result'range loop
+				result(i) := not_table( and_table( lv(i), rv(i) ) );
+			end loop;
+		end if;
+	end "nand";
+	--------------------------------------------------------------------
+	function "nand"	( l, r : std_ulogic_vector ) return std_ulogic_vector is
+		alias lv : std_ulogic_vector ( 1 to l'length ) is l;
+		alias rv : std_ulogic_vector ( 1 to r'length ) is r;
+		variable result : std_ulogic_vector ( 1 to l'length );
+	begin
+		if ( l'length /= r'length ) then
+			assert false
+			report "arguments of overloaded 'nand' operator are not of the same length"
+			severity failure;
+		else
+			for i in result'range loop
+				result(i) := not_table( and_table( lv(i), rv(i) ) );
+			end loop;
+		end if;
+	end "nand";
+	
+	--------------------------------------------------------------------
+	--	or
+	--------------------------------------------------------------------
+	function "or"	( l, r : std_logic_vector ) return std_logic_vector is
+		alias lv : std_logic_vector ( 1 to l'length ) is l;
+		alias rv : std_logic_vector ( 1 to r'length ) is r;
+		variable result : std_logic_vector ( 1 to l'length );
+	begin
+		if ( l'length /= r'length ) then
+			assert false
+			report "arguments of overloaded 'or' operator are not of the same length"
+			severity failure;
+		else
+			for i in result'range loop
+				result(i) := or_table( lv(i), rv(i) );
+			end loop;
+		end if;
+	end "or";
+	--------------------------------------------------------------------
+	function "or"	( l, r : std_ulogic_vector ) return std_ulogic_vector is
+		alias lv : std_ulogic_vector ( 1 to l'length ) is l;
+		alias rv : std_ulogic_vector ( 1 to r'length ) is r;
+		variable result : std_ulogic_vector ( 1 to l'length );
+	begin
+		if ( l'length /= r'length ) then
+			assert false
+			report "arguments of overloaded 'or' operator are not of the same length"
+			severity failure;
+		else
+			for i in result'range loop
+				result(i) := or_table( lv(i), rv(i) );
+			end loop;
+		end if;
+	end "or";
+	
+	--------------------------------------------------------------------
+	--	nor
+	--------------------------------------------------------------------
+	function "nor"	( l, r : std_logic_vector ) return std_logic_vector is
+		alias lv : std_logic_vector ( 1 to l'length ) is l;
+		alias rv : std_logic_vector ( 1 to r'length ) is r;
+		variable result : std_logic_vector ( 1 to l'length );
+	begin
+		if ( l'length /= r'length ) then
+			assert false
+			report "arguments of overloaded 'nor' operator are not of the same length"
+			severity failure;
+		else
+			for i in result'range loop
+				result(i) := not_table( or_table( lv(i), rv(i) ) );
+			end loop;
+		end if;
+	end "nor";
+	--------------------------------------------------------------------
+	function "nor"	( l, r : std_ulogic_vector ) return std_ulogic_vector is
+		alias lv : std_ulogic_vector ( 1 to l'length ) is l;
+		alias rv : std_ulogic_vector ( 1 to r'length ) is r;
+		variable result : std_ulogic_vector ( 1 to l'length );
+	begin
+		if ( l'length /= r'length ) then
+			assert false
+			report "arguments of overloaded 'nor' operator are not of the same length"
+			severity failure;
+		else
+			for i in result'range loop
+				result(i) := not_table( or_table( lv(i), rv(i) ) );
+			end loop;
+		end if;
+	end "nor";
+	
+	--------------------------------------------------------------------
+	--	xor
+	--------------------------------------------------------------------
+	function "xor"	( l, r : std_logic_vector ) return std_logic_vector is
+		alias lv : std_logic_vector ( 1 to l'length ) is l;
+		alias rv : std_logic_vector ( 1 to r'length ) is r;
+		variable result : std_logic_vector ( 1 to l'length );
+	begin
+		if ( l'length /= r'length ) then
+			assert false
+			report "arguments of overloaded 'xor' operator are not of the same length"
+			severity failure;
+		else
+			for i in result'range loop
+				result(i) := xor_table( lv(i), rv(i) );
+			end loop;
+		end if;
+	end "xor";
+	--------------------------------------------------------------------
+	function "xor"	( l, r : std_ulogic_vector ) return std_ulogic_vector is
+		alias lv : std_ulogic_vector ( 1 to l'length ) is l;
+		alias rv : std_ulogic_vector ( 1 to r'length ) is r;
+		variable result : std_ulogic_vector ( 1 to l'length );
+	begin
+		if ( l'length /= r'length ) then
+			assert false
+			report "arguments of overloaded 'xor' operator are not of the same length"
+			severity failure;
+		else
+			for i in result'range loop
+				result(i) := xor_table( lv(i), rv(i) );
+			end loop;
+		end if;
+	end "xor";
+	
+	--------------------------------------------------------------------
+	--	not
+	--------------------------------------------------------------------
+	function "not"	( l : std_logic_vector ) return std_logic_vector is
+		alias lv : std_logic_vector ( 1 to l'length ) is l;
+		variable result : std_logic_vector ( 1 to l'length ) := (others => 'X');
+	begin
+		for i in result'range loop
+			result(i) := not_table( lv(i) );
+		end loop;
+		return result;
+	end "not";
 	
 	--------------------------------------------------------------------
 	--	conversion functions

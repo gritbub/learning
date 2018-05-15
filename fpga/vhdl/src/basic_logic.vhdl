@@ -25,9 +25,10 @@ package basic_logic is
 	--------------------------------------------------------------------
 	
 	--------------------------------------------------------------------
-	--	types defined in std, included with the compiler; not to be used
+	--	types defined in std, included with the compiler; not to be 'use'd
 	--------------------------------------------------------------------
 	-- type BIT is ( '0', '1' )
+	-- type BOOLEAN is ( FALSE, TRUE );
 	
 	--------------------------------------------------------------------
 	--	logic state system (unresolved)
@@ -80,7 +81,7 @@ package basic_logic is
 	function "or"	( l : std_ulogic; r : std_ulogic ) return UX01;
 	function "nor"	( l : std_ulogic; r : std_ulogic ) return UX01;
 	function "xor"	( l : std_ulogic; r : std_ulogic ) return UX01;
-	function "not"	( l : std_ulogic				 ) return UX01;
+	function "not"	( l : std_ulogic ) return UX01;
 	
 	--------------------------------------------------------------------
 	--	vectorized overloaded logical operators
@@ -112,6 +113,7 @@ package basic_logic is
 	--	edge detection
 	--------------------------------------------------------------------
 	function rising_edge	( signal s : std_ulogic ) return BOOLEAN;
+	function falling_edge	( signal s : std_ulogic ) return BOOLEAN;
 	
 end basic_logic;
 
