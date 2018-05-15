@@ -108,5 +108,10 @@ package basic_logic is
 	--------------------------------------------------------------------
 	function To_bit ( s : std_ulogic; xmap : BIT := '0' ) return BIT;
 	
+	--------------------------------------------------------------------
+	--	edge detection
+	--------------------------------------------------------------------
+	function rising_edge	( signal s : std_ulogic ) return BOOLEAN;
+	
 end basic_logic;
 
