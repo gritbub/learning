@@ -340,6 +340,33 @@ package body basic_logic is
 	end "not";
 	
 	--------------------------------------------------------------------
+	--	conversion tables
+	--------------------------------------------------------------------
+	type logic_x01_table is array ( std_ulogic'low to std_ulogic'high ) of X01;
+	--------------------------------------------------------------------
+	--	table name	:	cvt_to_x01
+	--	
+	--	input		:	std_ulogic
+	--	returns		:	X01
+	--	
+	--	purpose		:	to convert state-strength to state only
+	--	
+	--	example		:	if ( cvt_to_x01 ( input_signal ) = '1' ) then
+	--	
+	--------------------------------------------------------------------
+	constant cvt_to_x01 : logic_x01_table := (
+						'X',	--	'U'
+						'X',	--	'X'
+						'0',	--	'0'
+						'1',	--	'1'
+						'X',	--	'Z'
+						'X',	--	'W'
+						'0',	--	'L'
+						'1',	--	'H'
+						'X',	--	'-'
+	);
+	
+	--------------------------------------------------------------------
 	--	conversion functions
 	--------------------------------------------------------------------
 	function To_bit ( s : std_ulogic; xmap : BIT := '0' ) return BIT is
@@ -348,6 +375,33 @@ package body basic_logic is
 			when '0' | 'L' => return ('0');
 			when '1' | 'H' => return ('1');
 		end case;
+	end;
+	
+	--------------------------------------------------------------------
+	--	strength strippers and type converters
+	--------------------------------------------------------------------
+	--	To_X01
+	--------------------------------------------------------------------
+	function To_X01 ( s : std_ulogic ) return X01 is
+	begin
+		return ( cvt_to_x01(s) );
+	end;
+	
+	--------------------------------------------------------------------
+	--	edge detection
+	--------------------------------------------------------------------
+	function rising_edge	( signal s : std_ulogic ) return BOOLEAN is
+	begin
+		return	( s'event
+			and ( To_X01(s) = '1' )
+			and ( To_X01( s'last_value ) = '0' ) );
+	end;
+	
+	function falling_edge	( signal s : std_ulogic ) return BOOLEAN is
+	begin
+		return	( s'event
+			and ( To_X01(s) = '0' )
+			and ( To_X01( s'last_value ) = '1' ) );
 	end;
 	
 end basic_logic;

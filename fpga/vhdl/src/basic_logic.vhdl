@@ -71,7 +71,8 @@ package basic_logic is
 	--------------------------------------------------------------------
 	--	common subtypes
 	--------------------------------------------------------------------
-	subtype UX01 is resolved std_ulogic range 'U' to '1'; -- ('U','X','0','1')
+	subtype X01		is resolved std_ulogic range 'X' to '1'; -- (	 'X','0','1')
+	subtype UX01	is resolved std_ulogic range 'U' to '1'; -- ('U','X','0','1')
 	
 	--------------------------------------------------------------------
 	--	overloaded logical operators
@@ -108,6 +109,11 @@ package basic_logic is
 	--	conversion functions
 	--------------------------------------------------------------------
 	function To_bit ( s : std_ulogic; xmap : BIT := '0' ) return BIT;
+	
+	--------------------------------------------------------------------
+	--	strength strippers and type converters
+	--------------------------------------------------------------------
+	function To_X01 ( s : std_ulogic ) return X01;
 	
 	--------------------------------------------------------------------
 	--	edge detection
