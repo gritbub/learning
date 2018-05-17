@@ -1,21 +1,31 @@
 ------------------------------------------------------------------------
---
---	Title		:	basic_logic
---	Library		:	This package shall be compiled into a library
---				:	symbolically named mine.
---				:
---	Developers	:	IEEE model standards group (par 1164)
---	(Original)	:
+--	
+--	Title		:	mine.basic_logic
+--	
 --	Developers	:	https://github.com/gritbub
---	(this copy)	:
---	Purpose		:	To provide only the parts of std_logic_1164 that
---				:	I'm using. Also to learn what comprises the
---				:	standard by retracing its contents.
---				:
---	Limitation	:	See original below.
---				:
---	Note		:	Copied from parts of ieee.std_logic_1164.
---
+--	
+--	Purpose		:	To copy ieee.std_logic_1164 manually as a learning
+--					exercise. Also to build a smaller version of
+--					std_logic_1164 which contains only a subset of the
+--					original functions/types.
+--	
+--	License:	:	This is a direct copy of some of the ieee standard.
+--					The original source is linked to at https://github.com/gritbub/learning/blob/master/fpga/vhdl/Sources.md.
+--					See source for original license information.
+--	
+--	Content		:	package bodies	:	basic_logic
+--					functions		:	resolved
+--										"and"
+--										"nand"
+--										"or"
+--										"nor"
+--										"xor"
+--										"not"
+--										To_bit
+--										To_X01
+--										rising_edge
+--										falling_edge
+--	
 ------------------------------------------------------------------------
 
 package body basic_logic is
@@ -39,7 +49,7 @@ package body basic_logic is
 			( 'U', 'X', '0', '1', 'W', 'W', 'W', 'W', 'X' ), -- W
 			( 'U', 'X', '0', '1', 'L', 'W', 'L', 'W', 'X' ), -- L
 			( 'U', 'X', '0', '1', 'H', 'W', 'W', 'H', 'X' ), -- H
-			( 'U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ), -- -
+			( 'U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ) -- -
 	);
 	
 	function resolved ( s : std_ulogic_vector ) return std_ulogic is
@@ -76,7 +86,7 @@ package body basic_logic is
 			( 'U', 'X', '0', 'X', 'X', 'X', '0', 'X', 'X' ), -- W
 			( '0', '0', '0', '0', '0', '0', '0', '0', '0' ), -- L
 			( 'U', 'X', '0', '1', 'X', 'X', '0', '1', 'X' ), -- H
-			( 'U', 'X', '0', 'X', 'X', 'X', '0', 'X', 'X' ), -- -
+			( 'U', 'X', '0', 'X', 'X', 'X', '0', 'X', 'X' ) -- -
 	);
 	
 	--	truth table for "or" function
@@ -92,7 +102,7 @@ package body basic_logic is
 			( 'U', 'X', 'X', '1', 'X', 'X', 'X', '1', 'X' ), -- W
 			( 'U', 'X', '0', '1', 'X', 'X', '0', '1', 'X' ), -- L
 			( '1', '1', '1', '1', '1', '1', '1', '1', '1' ), -- H
-			( 'U', 'X', 'X', '1', 'X', 'X', 'X', '1', 'X' ), -- -
+			( 'U', 'X', 'X', '1', 'X', 'X', 'X', '1', 'X' ) -- -
 	);
 	
 	--	truth table for "xor" function
@@ -108,7 +118,7 @@ package body basic_logic is
 			( 'U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ), -- W
 			( 'U', 'X', '0', '1', 'X', 'X', '0', '1', 'X' ), -- L
 			( 'U', 'X', '1', '0', 'X', 'X', '1', '0', 'X' ), -- H
-			( 'U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ), -- -
+			( 'U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' ) -- -
 	);
 	
 	--	truth table for "not" function
@@ -338,6 +348,16 @@ package body basic_logic is
 		end loop;
 		return result;
 	end "not";
+	--------------------------------------------------------------------
+	function "not"	( l : std_ulogic_vector ) return std_ulogic_vector is
+		alias lv : std_ulogic_vector ( 1 to l'length ) is l;
+		variable result : std_ulogic_vector ( 1 to l'length ) := (others => 'X');
+	begin
+		for i in result'range loop
+			result(i) := not_table( lv(i) );
+		end loop;
+		return result;
+	end "not";
 	
 	--------------------------------------------------------------------
 	--	conversion tables
@@ -363,7 +383,7 @@ package body basic_logic is
 						'X',	--	'W'
 						'0',	--	'L'
 						'1',	--	'H'
-						'X',	--	'-'
+						'X'	--	'-'
 	);
 	
 	--------------------------------------------------------------------

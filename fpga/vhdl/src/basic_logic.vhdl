@@ -1,28 +1,40 @@
 ------------------------------------------------------------------------
---
---	Title		:	basic_logic
---	Library		:	This package shall be compiled into a library
---				:	symbolically named mine.
---				:
---	Developers	:	IEEE model standards group (par 1164)
---	(Original)	:
+--	
+--	Title		:	mine.basic_logic
+--	
 --	Developers	:	https://github.com/gritbub
---	(this copy)	:
---	Purpose		:	To provide only the parts of std_logic_1164 that
---				:	I'm using. Also to learn what comprises the
---				:	standard by retracing its contents.
---				:
---	Limitation	:	See original below.
---				:
---	Note		:	Copied from parts of ieee.std_logic_1164.
---
+--	
+--	Purpose		:	To copy ieee.std_logic_1164 manually as a learning
+--					exercise. Also to build a smaller version of
+--					std_logic_1164 which contains only a subset of the
+--					original functions/types.
+--	
+--	License:	:	This is a direct copy of some of the ieee standard.
+--					The original source is linked to at https://github.com/gritbub/learning/blob/master/fpga/vhdl/Sources.md.
+--					See source for original license information.
+--	
+--	Content		:	package bodies	:	basic_logic
+--					types			:	std_ulogic
+--										std_ulogic_vector
+--										std_logic
+--										std_logic_vector
+--										X01
+--										UX01
+--					functions		:	resolved
+--										"and"
+--										"nand"
+--										"or"
+--										"nor"
+--										"xor"
+--										"not"
+--										To_bit
+--										To_X01
+--										rising_edge
+--										falling_edge
+--	
 ------------------------------------------------------------------------
 
 package basic_logic is
-	
-	--------------------------------------------------------------------
-	--	
-	--------------------------------------------------------------------
 	
 	--------------------------------------------------------------------
 	--	types defined in std, included with the compiler; not to be 'use'd
@@ -41,7 +53,7 @@ package basic_logic is
 							'W', 	--	Weak	Unknown
 							'L', 	--	Weak	0
 							'H', 	--	Weak	1
-							'-', 	--	Don't care
+							'-' 	--	Don't care
 	);
 	
 	--------------------------------------------------------------------
