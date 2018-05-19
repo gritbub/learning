@@ -1,6 +1,8 @@
+------------------------------------------------------------------------------
 -- Taken from the documentation for GHDL.
 -- See https://github.com/gritbub/learning/blob/master/fpga/vhdl/Sources.md
 --    for license info.
+------------------------------------------------------------------------------
 
 
 -- Imports the standard textio package.
@@ -20,3 +22,4 @@ begin
       wait;
    end process;
 end behavior;
+
