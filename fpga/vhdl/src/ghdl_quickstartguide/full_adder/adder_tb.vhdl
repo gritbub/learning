@@ -36,7 +36,8 @@ begin
    -- This process does the real job.
    ---------------------------------------------------------------------------
    process
-      type pattern_type is record
+      
+	  type pattern_type is record
          ---------------------------------------------------------------------
          -- The inputs of the adder.
          ---------------------------------------------------------------------
@@ -59,31 +60,31 @@ begin
           ('1', '1', '0', '0', '1'),
           ('1', '1', '1', '1', '1'));
        
-      begin
-         for i in patterns'range loop
-            ------------------------------------------------------------------
-            -- Set the inputs
-            ------------------------------------------------------------------
-            i0 <= patterns(i).i0;
-            i1 <= patterns(i).i1;
-            ci <= patterns(i).ci;
-            ------------------------------------------------------------------
-            -- Wait for the results.
-            ------------------------------------------------------------------
-            wait for 1 ns;
-            ------------------------------------------------------------------
-            -- Check the outputs.
-            ------------------------------------------------------------------
-            assert s = patterns(i).s
-               report "bad sum value" severity error;
-            assert co = patterns(i).co
-               report "bad carry out value" severity error;
-         end loop;
-         assert false report "end of test" severity note;
-         ---------------------------------------------------------------------
-         -- Wait forever; this will finish the simulation.
-         ---------------------------------------------------------------------
-         wait;
-      end process;
+  begin
+	 for i in patterns'range loop
+		 ------------------------------------------------------------------
+		 -- Set the inputs
+		 ------------------------------------------------------------------
+		 i0 <= patterns(i).i0;
+		 i1 <= patterns(i).i1;
+		 ci <= patterns(i).ci;
+		 ------------------------------------------------------------------
+		 -- Wait for the results.
+		 ------------------------------------------------------------------
+		 wait for 1 ns;
+		 ------------------------------------------------------------------
+		 -- Check the outputs.
+		 ------------------------------------------------------------------
+		 assert s = patterns(i).s
+		    report "bad sum value" severity error;
+		 assert co = patterns(i).co
+		    report "bad carry out value" severity error;
+	  end loop;
+	  assert false report "end of test" severity note;
+	  ---------------------------------------------------------------------
+	  -- Wait forever; this will finish the simulation.
+	  ---------------------------------------------------------------------
+	  wait;
+   end process;
 end behav;
 
