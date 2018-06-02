@@ -5,12 +5,12 @@ I claim no license for the work done in this repo. If the file is a copy of a st
 
 
 ## Helpful Links
-### HTML, Markdown, Sphinx
-- [Markdown Cheat Sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)  
+&nbsp;&nbsp;&nbsp;### HTML, Markdown, Sphinx
+&nbsp;&nbsp;&nbsp;- [Markdown Cheat Sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)  
 
-### Git
-- [Commit Message Keywords](https://github.com/joelparkerhenderson/git_commit_message)  
-- [Commit Message Structure](https://github.com/torvalds/subsurface-for-dirk/blob/0f58510ce0244513521296b75281fcc32f72a931/README#L92-L119)  
-- [Commit Message Multiple Lines in Bash](https://stackoverflow.com/questions/5064563/add-line-break-to-git-commit-m-from-the-command-line?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)  
-- [Rebase - How To](https://github.com/edx/edx-platform/wiki/How-to-Rebase-a-Pull-Request)  
-- [Rebase - Identify Conflicting Commits by Hash](https://stackoverflow.com/questions/2118364/how-to-identify-conflicting-commits-by-hash-during-git-rebase?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)  
+&nbsp;&nbsp;&nbsp;### Git
+&nbsp;&nbsp;&nbsp;- [Commit Message Keywords](https://github.com/joelparkerhenderson/git_commit_message)  
+&nbsp;&nbsp;&nbsp;- [Commit Message Structure](https://github.com/torvalds/subsurface-for-dirk/blob/0f58510ce0244513521296b75281fcc32f72a931/README#L92-L119)  
+&nbsp;&nbsp;&nbsp;- [Commit Message Multiple Lines in Bash](https://stackoverflow.com/questions/5064563/add-line-break-to-git-commit-m-from-the-command-line?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)  
+   - [Rebase - How To](https://github.com/edx/edx-platform/wiki/How-to-Rebase-a-Pull-Request)  
+&nbsp;&nbsp;&nbsp;- [Rebase - Identify Conflicting Commits by Hash](https://stackoverflow.com/questions/2118364/how-to-identify-conflicting-commits-by-hash-during-git-rebase?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)  
